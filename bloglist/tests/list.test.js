@@ -199,7 +199,7 @@ describe('favorite blog', () => {
       title: 'Go To Statement Considered Harmful',
       author: 'Edsger W. Dijkstra',
       url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
+      likes: 15,
       __v: 0
     },
     {
@@ -215,7 +215,7 @@ describe('favorite blog', () => {
       title: 'First class tests',
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 12,
+      likes: 15,
       __v: 0
     },
     {
@@ -231,16 +231,16 @@ describe('favorite blog', () => {
       title: 'Type wars',
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 12,
+      likes: 15,
       __v: 0
     }
   ]
 
   const firstFavorite =
   {
-    title: 'Canonical string reduction',
+    title: 'Go To Statement Considered Harmful',
     author: 'Edsger W. Dijkstra',
-    likes: 12
+    likes: 15,
   }
 
   test('of a list with many top favorites, returns the first match', () => {
