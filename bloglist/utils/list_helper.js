@@ -9,6 +9,11 @@ const totalLikes = (blogs) => {
   return blogs.reduce(reducer, 0)
 }
 
+const favoriteBlog = (blogs) => {
+  //finds out which blog has the most likes. If there are many top favorites, it is enough to return one of them.
+  return result
+}
+
 module.exports = {
-  dummy, totalLikes
+  dummy, totalLikes, favoriteBlog
 }
