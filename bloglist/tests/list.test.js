@@ -99,28 +99,28 @@ describe('favorite blog', () => {
     assert.deepStrictEqual(result, null)
   })
 
-  // const oneBlog = [
-  //   {
-  //     _id: '5a422aa71b54a676234d17f8',
-  //     title: 'Go To Statement Considered Harmful',
-  //     author: 'Edsger W. Dijkstra',
-  //     url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
-  //     likes: 5,
-  //     __v: 0
-  //   }
-  // ]
+  const oneBlog = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    }
+  ]
 
-  // const resultOneBlog =
-  // {
-  //   title: 'Go To Statement Considered Harmful',
-  //   author: 'Edsger W. Dijkstra',
-  //   likes: 5
-  // }
+  const resultOneBlog =
+  {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    likes: 5
+  }
 
-  // test('when list has only one blog, returns it', () => {
-  //   const result = listHelper.favoriteBlog(oneBlog)
-  //   assert.deepStrictEqual(result, resultOneBlog)
-  // })
+  test('when list has only one blog, returns it', () => {
+    const result = listHelper.favoriteBlog(oneBlog)
+    assert.deepStrictEqual(result, resultOneBlog)
+  })
 
   const blogs = [
     {
