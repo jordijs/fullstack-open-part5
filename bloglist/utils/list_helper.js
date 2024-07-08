@@ -10,8 +10,14 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-  //finds out which blog has the most likes. If there are many top favorites, it is enough to return one of them.
-  return result
+  const reducer = (favorite, current) => current.likes >= favorite.likes ? current : favorite
+  const result = blogs.reduce(reducer, blogs[0])
+  const formattedResult = {
+    title: result.title,
+    author: result.author,
+    likes:  result.likes
+  }
+  return formattedResult
 }
 
 module.exports = {
