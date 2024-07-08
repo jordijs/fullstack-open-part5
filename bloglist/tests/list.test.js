@@ -94,10 +94,10 @@ describe('total likes', () => {
 
 describe('favorite blog', () => {
 
-  // test('of empty list is null', () => {
-  //   const result = listHelper.favoriteBlog([])
-  //   assert.deepStrictEqual(result, null)
-  // })
+  test('of empty list is null', () => {
+    const result = listHelper.favoriteBlog([])
+    assert.deepStrictEqual(result, null)
+  })
 
   // const oneBlog = [
   //   {

@@ -10,6 +10,9 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
+
+  if (blogs.length === 0) return null
+
   const reducer = (favorite, current) => current.likes >= favorite.likes ? current : favorite
   const result = blogs.reduce(reducer, blogs[0])
   const formattedResult = {
