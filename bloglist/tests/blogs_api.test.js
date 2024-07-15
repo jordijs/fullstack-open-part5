@@ -107,7 +107,7 @@ describe('blogs api', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(201)
+      .expect(400)
       // .expect('Bad Request')
 
   })
