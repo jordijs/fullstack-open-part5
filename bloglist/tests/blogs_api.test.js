@@ -59,6 +59,10 @@ describe('blogs api', () => {
 
     assert.strictEqual(initialBlogs.length + 1, currentBlogs.length)
 
+    const titles = currentBlogs.map(blog => blog.title)
+    console.log(titles)
+    assert(titles.includes(newBlog.title))
+
   })
 
   after(async () => {
