@@ -127,6 +127,20 @@ describe('when there are initially some blogs saved', () => {
   describe('deleting a blog', () => {
     test('succeeds with code 204 if id is valid', async () => {
 
+      const blogsAtStart = await blogsInDb()
+      const blogToDelete = blogsAtStart[0]
+
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+      const blogsAtEnd = await blogsInDb()
+
+      assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+
+      const titles = blogsAtEnd.map(blog => blog.title)
+      assert(!titles.includes(blogToDelete.title))
+
     })
   })
 
