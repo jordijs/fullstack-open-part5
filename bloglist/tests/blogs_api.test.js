@@ -40,6 +40,25 @@ describe('blogs api', () => {
 
   })
 
+  test('a POST request creates a blog post', async () => {
+
+    const newBlog = {
+      title: 'Full stack open development',
+      author: 'Arto Hellas',
+      url: 'https://blogwebsite.com',
+      likes: 3
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    console.log(response.body)
+
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
