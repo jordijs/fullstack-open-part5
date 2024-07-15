@@ -174,6 +174,50 @@ describe('when there are initially some blogs saved', () => {
     })
   })
 
+  describe('updating a blog', () => {
+    test('succeeds with code 200 if id is valid', async () => {
+
+      const blogsAtStart = await blogsInDb()
+      const blogToEdit = blogsAtStart[0]
+
+      await api
+        .put(`/api/blogs/${blogToEdit.id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    })
+
+    // test('fails with code 404 if blog does not exist', async () => {
+
+    //   const validNonExistingId = await nonExistingId()
+    //   const blogsAtStart = await blogsInDb()
+
+    //   await api
+    //     .delete(`/api/blogs/${validNonExistingId}`)
+    //     .expect(404)
+
+    //   const blogsAtEnd = await blogsInDb()
+
+    //   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
+
+    // })
+
+    // test('fails with code 400 if blog id is not valid', async () => {
+
+    //   const invalidId = '5a3d5da59070081a82a3445'
+    //   const blogsAtStart = await blogsInDb()
+
+    //   await api
+    //     .delete(`/api/blogs/${invalidId}`)
+    //     .expect(400)
+
+    //   const blogsAtEnd = await blogsInDb()
+
+    //   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
+
+    // })
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
