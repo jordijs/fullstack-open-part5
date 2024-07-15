@@ -56,11 +56,9 @@ describe('blogs api', () => {
       .expect('Content-Type', /application\/json/)
 
     const currentBlogs = await blogsInDb()
-
     assert.strictEqual(initialBlogs.length + 1, currentBlogs.length)
 
     const titles = currentBlogs.map(blog => blog.title)
-    console.log(titles)
     assert(titles.includes(newBlog.title))
 
   })
