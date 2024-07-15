@@ -80,6 +80,52 @@ describe('blogs api', () => {
     assert.strictEqual(response.body.likes, 0)
   })
 
+  test('if "title" is missing from request, return 400', async () => {
+
+    const newBlog = {
+      author: 'Arto Hellas',
+      url: 'https://untitledblog.com',
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Bad Request')
+
+  })
+
+  test('if "url" is missing from request, return 400', async () => {
+
+    const newBlog = {
+      title: 'Anonymous blog post',
+      url: 'https://anonymousblog.com',
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Bad Request')
+
+  })
+
+  test('if "url" and "title" are missing from request, return 400', async () => {
+
+    const newBlog = {
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Bad Request')
+
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
