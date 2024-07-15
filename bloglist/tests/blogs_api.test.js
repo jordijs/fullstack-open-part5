@@ -63,6 +63,25 @@ describe('blogs api', () => {
 
   })
 
+  test('if "likes" is missing from request, default to 0', async () => {
+
+    const newBlog = {
+      title: 'Development without likes',
+      author: 'Mary Poppendieck',
+      url: 'https://unlikedblog.com'
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    console.log('response------------', response.body)
+
+    assert.strictEqual(response.body.likes, 0)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
