@@ -127,6 +127,12 @@ describe('when there are initially some blogs saved', () => {
 
   })
 
+  describe('deleting a blog', () => {
+    test('succeeds with code 204 if id is valid', async () => {
+
+    })
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
