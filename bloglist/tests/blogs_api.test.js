@@ -146,14 +146,20 @@ describe('when there are initially some blogs saved', () => {
     test('fails with code 404 if blog does not exist', async () => {
 
       const validNonExistingId = await nonExistingId()
+      console.log('------------------validNonExistingId---------', validNonExistingId)
 
       const blogsAtStart = await blogsInDb()
+
+      console.log('------------------blogsAtStart----------', blogsAtStart)
+
 
       await api
         .delete(`/api/blogs/${validNonExistingId}`)
         .expect(404)
 
       const blogsAtEnd = await blogsInDb()
+      console.log('------------------blogsAtEnd----------', blogsAtEnd)
+
 
       assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
 
