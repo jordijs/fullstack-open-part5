@@ -35,7 +35,7 @@ describe('blogs api', () => {
       .get('/api/blogs')
 
     for (const object of response.body) {
-      assert('_id' in object, true)
+      assert.strictEqual('id' in object, true)
     }
 
   })
