@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 
-const { initialBlogs, blogsInDb } = require('./blogs_api_helper')
+const { initialBlogs, blogsInDb, nonExistingId } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
@@ -138,8 +138,24 @@ describe('when there are initially some blogs saved', () => {
 
       assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
 
-      const titles = blogsAtEnd.map(blog => blog.title)
-      assert(!titles.includes(blogToDelete.title))
+      const ids = blogsAtEnd.map(blog => blog.id)
+      assert(!ids.includes(blogToDelete.id))
+
+    })
+
+    test('fails with code 404 if blog does not exist', async () => {
+
+      const validNonExistingId = await nonExistingId()
+
+      const blogsAtStart = await blogsInDb()
+
+      await api
+        .delete(`/api/blogs/${validNonExistingId}`)
+        .expect(404)
+
+      const blogsAtEnd = await blogsInDb()
+
+      assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
 
     })
   })
