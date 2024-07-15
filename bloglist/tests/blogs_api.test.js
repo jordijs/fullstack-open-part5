@@ -13,10 +13,7 @@ describe('when there are initially some blogs saved', () => {
 
   beforeEach(async () => {
     await Blog.deleteMany({})
-    for (let blog of initialBlogs) {
-      let blogObject = new Blog(blog)
-      await blogObject.save()
-    }
+    await Blog.insertMany(initialBlogs)
   })
 
   test('existing number of blogs are returned as json', async () => {
