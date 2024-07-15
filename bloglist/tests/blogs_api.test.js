@@ -20,11 +20,24 @@ describe('blogs api', () => {
   })
 
   test('existing number of blogs are returned as json', async () => {
+
     const response = await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
+
     assert.strictEqual(response.body.length, initialBlogs.length)
+
+  })
+
+  test('identifier is named "id"', async () => {
+    const response = await api
+      .get('/api/blogs')
+
+    for (const object of response.body) {
+      assert('_id' in object, true)
+    }
+
   })
 
   after(async () => {
