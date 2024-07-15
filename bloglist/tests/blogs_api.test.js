@@ -9,7 +9,7 @@ const { initialBlogs, blogsInDb } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
-describe('blogs api', () => {
+describe('when there are initially some blogs saved', () => {
 
   beforeEach(async () => {
     await Blog.deleteMany({})
@@ -40,86 +40,90 @@ describe('blogs api', () => {
 
   })
 
-  test('a POST request creates a blog post', async () => {
+  describe('adding a new blog', () => {
 
-    const newBlog = {
-      title: 'Full stack open development',
-      author: 'Arto Hellas',
-      url: 'https://blogwebsite.com',
-      likes: 3
-    }
+    test('suceeds with valid data', async () => {
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+      const newBlog = {
+        title: 'Full stack open development',
+        author: 'Arto Hellas',
+        url: 'https://blogwebsite.com',
+        likes: 3
+      }
 
-    const currentBlogs = await blogsInDb()
-    assert.strictEqual(initialBlogs.length + 1, currentBlogs.length)
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
 
-    const titles = currentBlogs.map(blog => blog.title)
-    assert(titles.includes(newBlog.title))
+      const currentBlogs = await blogsInDb()
+      assert.strictEqual(initialBlogs.length + 1, currentBlogs.length)
 
-  })
+      const titles = currentBlogs.map(blog => blog.title)
+      assert(titles.includes(newBlog.title))
 
-  test('if "likes" is missing from request, default to 0', async () => {
+    })
 
-    const newBlog = {
-      title: 'Development without likes',
-      author: 'Mary Poppendieck',
-      url: 'https://unlikedblog.com'
-    }
+    test('if "likes" is missing from request, default to 0', async () => {
 
-    const response = await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+      const newBlog = {
+        title: 'Development without likes',
+        author: 'Mary Poppendieck',
+        url: 'https://unlikedblog.com'
+      }
 
-    assert.strictEqual(response.body.likes, 0)
-  })
+      const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
 
-  test('if "title" is missing from request, return 400', async () => {
+      assert.strictEqual(response.body.likes, 0)
+    })
 
-    const newBlog = {
-      author: 'Arto Hellas',
-      url: 'https://untitledblog.com',
-      likes: 5
-    }
+    test('if "title" is missing from request, return 400', async () => {
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(400)
+      const newBlog = {
+        author: 'Arto Hellas',
+        url: 'https://untitledblog.com',
+        likes: 5
+      }
 
-  })
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
 
-  test('if "url" is missing from request, return 400', async () => {
+    })
 
-    const newBlog = {
-      title: 'Anonymous blog post',
-      url: 'https://anonymousblog.com',
-      likes: 5
-    }
+    test('if "url" is missing from request, return 400', async () => {
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(400)
+      const newBlog = {
+        title: 'Anonymous blog post',
+        url: 'https://anonymousblog.com',
+        likes: 5
+      }
 
-  })
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
 
-  test('if "url" and "title" are missing from request, return 400', async () => {
+    })
 
-    const newBlog = {
-      likes: 5
-    }
+    test('if "url" and "title" are missing from request, return 400', async () => {
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(400)
+      const newBlog = {
+        likes: 5
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+    })
 
   })
 
