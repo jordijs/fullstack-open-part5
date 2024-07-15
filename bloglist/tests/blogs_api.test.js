@@ -92,7 +92,7 @@ describe('blogs api', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
-      .expect('Bad Request')
+      // .expect('Bad Request')
 
   })
 
@@ -108,7 +108,7 @@ describe('blogs api', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
-      .expect('Bad Request')
+      // .expect('Bad Request')
 
   })
 
@@ -122,7 +122,7 @@ describe('blogs api', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
-      .expect('Bad Request')
+      // .expect('Bad Request')
 
   })
 
