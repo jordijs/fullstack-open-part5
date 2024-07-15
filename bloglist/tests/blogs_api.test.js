@@ -77,8 +77,6 @@ describe('blogs api', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    console.log('response------------', response.body)
-
     assert.strictEqual(response.body.likes, 0)
   })
 
