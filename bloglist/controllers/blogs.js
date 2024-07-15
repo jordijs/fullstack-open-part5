@@ -17,9 +17,8 @@ blogsRouter.delete('/:id', async (request, response) => {
   if (deleted) {
     response.status(204).end()
   } else {
-    return response.status(404).end()
+    response.status(404).json({ error: 'Blog not found' })
   }
-
 })
 
 module.exports = blogsRouter
