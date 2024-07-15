@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 
-const { initialBlogs } = require('./blogs_api_helper')
+const { initialBlogs, blogsInDb } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
@@ -49,13 +49,15 @@ describe('blogs api', () => {
       likes: 3
     }
 
-    const response = await api
+    await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    console.log(response.body)
+    const currentBlogs = await blogsInDb()
+
+    assert.strictEqual(initialBlogs.length + 1, currentBlogs.length)
 
   })
 
