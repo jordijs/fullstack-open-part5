@@ -190,24 +190,22 @@ describe('when there are initially some blogs saved', () => {
         .expect('Content-Type', /application\/json/)
 
       assert.strictEqual(response.body.likes, newData.likes)
-      console.log(response.body)
 
     })
 
-    // test('fails with code 404 if blog does not exist', async () => {
+    test('fails with code 404 if blog does not exist', async () => {
 
-    //   const validNonExistingId = await nonExistingId()
-    //   const blogsAtStart = await blogsInDb()
+      const validNonExistingId = await nonExistingId()
+      const newData = {
+        likes: 73
+      }
 
-    //   await api
-    //     .delete(`/api/blogs/${validNonExistingId}`)
-    //     .expect(404)
+      await api
+        .put(`/api/blogs/${validNonExistingId}`)
+        .send(newData)
+        .expect(404)
 
-    //   const blogsAtEnd = await blogsInDb()
-
-    //   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
-
-    // })
+    })
 
     // test('fails with code 400 if blog id is not valid', async () => {
 
