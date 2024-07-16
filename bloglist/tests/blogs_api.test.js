@@ -207,20 +207,19 @@ describe('when there are initially some blogs saved', () => {
 
     })
 
-    // test('fails with code 400 if blog id is not valid', async () => {
+    test('fails with code 400 if blog id is not valid', async () => {
 
-    //   const invalidId = '5a3d5da59070081a82a3445'
-    //   const blogsAtStart = await blogsInDb()
+      const invalidId = '5a3d5da59070081a82a3445'
+      const newData = {
+        likes: 99
+      }
 
-    //   await api
-    //     .delete(`/api/blogs/${invalidId}`)
-    //     .expect(400)
+      await api
+        .put(`/api/blogs/${invalidId}`)
+        .send(newData)
+        .expect(400)
 
-    //   const blogsAtEnd = await blogsInDb()
-
-    //   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
-
-    // })
+    })
   })
 
   after(async () => {
