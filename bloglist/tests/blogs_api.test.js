@@ -189,6 +189,7 @@ describe('when there are initially some blogs saved', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
+      assert.strictEqual(response.body.likes, newData.likes)
       console.log(response.body)
 
     })
