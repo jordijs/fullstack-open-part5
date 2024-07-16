@@ -179,11 +179,17 @@ describe('when there are initially some blogs saved', () => {
 
       const blogsAtStart = await blogsInDb()
       const blogToEdit = blogsAtStart[0]
+      const newData = {
+        likes: 32
+      }
 
-      await api
+      const response = await api
         .put(`/api/blogs/${blogToEdit.id}`)
+        .send(newData)
         .expect(200)
         .expect('Content-Type', /application\/json/)
+
+      console.log(response.body)
 
     })
 
