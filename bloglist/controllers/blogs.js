@@ -23,7 +23,13 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
 
-  const newData = request.body
+  if (!request.body.likes) {
+    response.status(400).json({ error: 'New likes must be sent in the request' })
+  }
+
+  const newData = {
+    likes: request.body.likes
+  }
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newData, { new: true })
   if (updatedBlog){

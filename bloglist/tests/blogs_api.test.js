@@ -183,13 +183,15 @@ describe('when there are initially some blogs saved', () => {
         likes: 32
       }
 
-      const response = await api
+      await api
         .put(`/api/blogs/${blogToEdit.id}`)
         .send(newData)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
-      assert.strictEqual(response.body.likes, newData.likes)
+      const blogsAtEnd = await blogsInDb()
+
+      assert.strictEqual(blogsAtEnd[0].likes, newData.likes)
 
     })
 
@@ -220,6 +222,27 @@ describe('when there are initially some blogs saved', () => {
         .expect(400)
 
     })
+
+    test('fails with code 400 if id is valid but likes are not sent', async () => {
+
+      const blogsAtStart = await blogsInDb()
+      const blogToEdit = blogsAtStart[0]
+      const newData = {
+        title: 'Can you change a title without sending likes?'
+      }
+
+      await api
+        .put(`/api/blogs/${blogToEdit.id}`)
+        .send(newData)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      const blogsAtEnd = await blogsInDb()
+
+      assert.deepStrictEqual(blogsAtEnd[0], blogsAtStart[0])
+
+    })
+
   })
 
   after(async () => {
