@@ -63,6 +63,28 @@ describe('when there is initially one user in db', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
+  test('creation fails with proper statuscode and message if username is too short', async () => {
+    const usersAtStart = await usersInDb()
+
+    const newUser = {
+      username: 'us',
+      name: 'Short User',
+      password: 'secretCode',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+
+    assert(result.body.error.includes('Path `username` (`us`) is shorter than the minimum allowed length (3)'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
 
   after(async () => {
     await mongoose.connection.close()
