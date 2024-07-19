@@ -41,7 +41,7 @@ export default [
       'arrow-spacing': [
         'error', { 'before': true, 'after': true },
       ],
-      'no-console': 'off',
+      'no-console': 'warn',
     },
   },
   { 
