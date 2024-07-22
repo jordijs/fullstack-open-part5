@@ -9,11 +9,13 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-  const firstUser = await User.findOne({})
-  const newBlog = { ...request.body, user: firstUser._id }
+  const user = await User.findOne({})
+  const newBlog = { ...request.body, user: user.id }
   const blog = new Blog(newBlog)
-  const result = await blog.save()
-  response.status(201).json(result)
+  const savedBlog = await blog.save()
+  user.blogs = user.blogs.concat(savedBlog.id)
+  await user.save()
+  response.status(201).json(savedBlog)
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
