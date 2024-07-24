@@ -97,8 +97,8 @@ describe('when there are initially some blogs saved', () => {
     test('if "url" is missing from request, return 400', async () => {
 
       const newBlog = {
-        title: 'Anonymous blog post',
-        url: 'https://anonymousblog.com',
+        title: 'Blog post without url',
+        author: 'Arto Hellas',
         likes: 5
       }
 
