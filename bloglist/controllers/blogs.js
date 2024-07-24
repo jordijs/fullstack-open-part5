@@ -38,12 +38,21 @@ blogsRouter.delete('/:id', async (request, response) => {
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
-  const deleted = await Blog.findByIdAndDelete(request.params.id)
-  if (deleted) {
-    response.status(204).end()
-  } else {
+  const blog = await Blog.findById(request.params.id)
+  if (!blog){
     response.status(404).json({ error: 'Blog not found' })
   }
+  const blogUser = blog.user.toString()
+  const tokenUser = decodedToken.id
+  if (blogUser === tokenUser) {
+    const deleted = await Blog.findByIdAndDelete(request.params.id)
+    if (deleted) {
+      response.status(204).end()
+    }
+  } else {
+    response.status(401).json({ error: 'this note does not belong to your user' })
+  }
+
 })
 
 blogsRouter.put('/:id', async (request, response) => {
