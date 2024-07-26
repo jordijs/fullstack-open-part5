@@ -67,6 +67,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "likes" is missing from request, default to 0', async () => {
 
+      const token = await validToken()
+
       const newBlog = {
         title: 'Development without likes',
         author: 'Mary Poppendieck',
@@ -75,6 +77,7 @@ describe('when there are initially some blogs saved', () => {
 
       const response = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
