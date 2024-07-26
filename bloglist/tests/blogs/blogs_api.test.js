@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../../app')
 const Blog = require('../../models/blog')
 
-const { initialBlogs, blogsInDb, nonExistingId } = require('./blogs_api_helper')
+const { initialBlogs, blogsInDb, nonExistingId, validToken } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
@@ -41,6 +41,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('suceeds with valid data', async () => {
 
+      const token = await validToken()
+
       const newBlog = {
         title: 'Full stack open development',
         author: 'Arto Hellas',
@@ -50,6 +52,7 @@ describe('when there are initially some blogs saved', () => {
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
