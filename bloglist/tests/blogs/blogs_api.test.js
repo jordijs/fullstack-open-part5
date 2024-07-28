@@ -87,6 +87,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "title" is missing from request, return 400', async () => {
 
+      const token = await validToken()
+
       const newBlog = {
         author: 'Arto Hellas',
         url: 'https://untitledblog.com',
@@ -95,6 +97,7 @@ describe('when there are initially some blogs saved', () => {
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
 
