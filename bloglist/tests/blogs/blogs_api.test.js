@@ -123,12 +123,15 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "url" and "title" are missing from request, return 400', async () => {
 
+      const token = await validToken()
+
       const newBlog = {
         likes: 5
       }
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
 
