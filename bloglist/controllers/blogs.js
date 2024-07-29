@@ -44,7 +44,6 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
   } else {
     response.status(401).json({ error: 'this note does not belong to your user' })
   }
-
 })
 
 blogsRouter.put('/:id', async (request, response) => {

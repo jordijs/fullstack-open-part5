@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../../app')
 const Blog = require('../../models/blog')
 
-const { initialBlogs, blogsInDb, nonExistingId, validToken } = require('./blogs_api_helper')
+const { initialBlogs, blogsInDb, nonExistingId, authenticatedUser } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
@@ -41,7 +41,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('suceeds with valid data', async () => {
 
-      const token = await validToken()
+      const user = await authenticatedUser()
+      const token = user.token
 
       const newBlog = {
         title: 'Full stack open development',
@@ -67,7 +68,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "likes" is missing from request, default to 0', async () => {
 
-      const token = await validToken()
+      const user = await authenticatedUser()
+      const token = user.token
 
       const newBlog = {
         title: 'Development without likes',
@@ -87,7 +89,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "title" is missing from request, return 400', async () => {
 
-      const token = await validToken()
+      const user = await authenticatedUser()
+      const token = user.token
 
       const newBlog = {
         author: 'Arto Hellas',
@@ -105,7 +108,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "url" is missing from request, return 400', async () => {
 
-      const token = await validToken()
+      const user = await authenticatedUser()
+      const token = user.token
 
       const newBlog = {
         title: 'Blog post without url',
@@ -123,7 +127,8 @@ describe('when there are initially some blogs saved', () => {
 
     test('if "url" and "title" are missing from request, return 400', async () => {
 
-      const token = await validToken()
+      const user = await authenticatedUser()
+      const token = user.token
 
       const newBlog = {
         likes: 5

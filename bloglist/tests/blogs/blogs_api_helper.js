@@ -58,19 +58,25 @@ const nonExistingId = async () => {
   return blog._id.toString()
 }
 
-const validToken = async ()  => {
+const authenticatedUser = async ()  => {
+
   await User.deleteMany({})
+
   const passwordHash = await bcrypt.hash('contrasenya', 10)
+
   const user = new User({ username: 'jordijs', passwordHash })
+
   const savedUser = await user.save()
-  const userForToken = {
-    username: savedUser.username,
-    id: savedUser._id,
-  }
+
+  const username = savedUser.username
+  const id = savedUser._id
+  const userForToken = { username, id }
+
   const token = jwt.sign(userForToken, process.env.SECRET)
-  return token
+
+  return { token, username, id }
 }
 
 module.exports = {
-  initialBlogs, blogsInDb, nonExistingId, validToken
+  initialBlogs, blogsInDb, nonExistingId, authenticatedUser
 }
