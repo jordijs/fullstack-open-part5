@@ -186,11 +186,15 @@ describe('when there are initially some blogs saved', () => {
 
     test('fails with code 400 if blog id is not valid', async () => {
 
+      const user = await authenticatedUser()
+      const token = user.token
+
       const invalidId = '5a3d5da59070081a82a3445'
       const blogsAtStart = await blogsInDb()
 
       await api
         .delete(`/api/blogs/${invalidId}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(400)
 
       const blogsAtEnd = await blogsInDb()
