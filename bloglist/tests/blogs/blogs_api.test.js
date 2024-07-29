@@ -142,6 +142,22 @@ describe('when there are initially some blogs saved', () => {
 
     })
 
+    test('fails with code 401 if no token is provided', async () => {
+
+      const newBlog = {
+        title: 'Full stack open development',
+        author: 'Arto Hellas',
+        url: 'https://blogwebsite.com',
+        likes: 3
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+
+    })
+
   })
 
   describe('deleting a blog', () => {
