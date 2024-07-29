@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../../app')
 const Blog = require('../../models/blog')
 
-const { initialBlogs, blogsInDb, nonExistingId, authenticatedUser } = require('./blogs_api_helper')
+const { initialBlogs, blogsInDb, nonExistingId, authenticatedUser, blogWithUser } = require('./blogs_api_helper')
 
 const api = supertest(app)
 
@@ -148,26 +148,13 @@ describe('when there are initially some blogs saved', () => {
 
     test('succeeds with code 204 if id is valid', async () => {
 
-      const user = await authenticatedUser()
-      const { token, username, id } = user
-
-      const newBlog = {
-        title: 'Full stack open development',
-        author: 'Arto Hellas',
-        url: 'https://blogwebsite.com',
-        likes: 3
-      }
-
-      const blogAdded = await api
-        .post('/api/blogs')
-        .set('Authorization', `Bearer ${token}`)
-        .send(newBlog)
+      const blogToDelete = await blogWithUser()
+      const { blogId, token } = blogToDelete
 
       const blogsAtStart = await blogsInDb()
-      const blogToDelete = blogAdded.body
 
       await api
-        .delete(`/api/blogs/${blogToDelete.id}`)
+        .delete(`/api/blogs/${blogId}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
 
@@ -176,7 +163,7 @@ describe('when there are initially some blogs saved', () => {
       assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
 
       const ids = blogsAtEnd.map(blog => blog.id)
-      assert(!ids.includes(blogToDelete.id))
+      assert(!ids.includes(blogId))
 
     })
 

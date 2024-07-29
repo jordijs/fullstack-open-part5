@@ -74,9 +74,28 @@ const authenticatedUser = async ()  => {
 
   const token = jwt.sign(userForToken, process.env.SECRET)
 
-  return { token, username, id }
+  return { token, savedUser }
+}
+
+const blogWithUser = async () => {
+
+  const userHelper = await authenticatedUser()
+  const { savedUser: user, token } = userHelper
+
+  const blog = new Blog ({
+    title: 'Full stack open development',
+    author: 'Arto Hellas',
+    url: 'https://blogwebsite.com',
+    likes: 3,
+    user: user._id,
+  })
+
+  const savedBlog = await blog.save()
+  const blogId = savedBlog._id
+
+  return { blogId, token }
 }
 
 module.exports = {
-  initialBlogs, blogsInDb, nonExistingId, authenticatedUser
+  initialBlogs, blogsInDb, nonExistingId, authenticatedUser, blogWithUser
 }
