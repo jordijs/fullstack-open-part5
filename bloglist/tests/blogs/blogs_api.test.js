@@ -149,12 +149,12 @@ describe('when there are initially some blogs saved', () => {
     test('succeeds with code 204 if id is valid', async () => {
 
       const blogToDelete = await blogWithUser()
-      const { blogId, token } = blogToDelete
+      const { savedBlog, token } = blogToDelete
 
       const blogsAtStart = await blogsInDb()
 
       await api
-        .delete(`/api/blogs/${blogId}`)
+        .delete(`/api/blogs/${savedBlog._id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
 
@@ -163,17 +163,19 @@ describe('when there are initially some blogs saved', () => {
       assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
 
       const ids = blogsAtEnd.map(blog => blog.id)
-      assert(!ids.includes(blogId))
+      assert(!ids.includes(savedBlog._id))
 
     })
 
     test('fails with code 404 if blog does not exist', async () => {
 
       const validNonExistingId = await nonExistingId()
+      const { blogId, token } = validNonExistingId
       const blogsAtStart = await blogsInDb()
 
       await api
-        .delete(`/api/blogs/${validNonExistingId}`)
+        .delete(`/api/blogs/${blogId}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(404)
 
       const blogsAtEnd = await blogsInDb()
@@ -227,7 +229,7 @@ describe('when there are initially some blogs saved', () => {
       }
 
       await api
-        .put(`/api/blogs/${validNonExistingId}`)
+        .put(`/api/blogs/${validNonExistingId.blogId}`)
         .send(newData)
         .expect(404)
 

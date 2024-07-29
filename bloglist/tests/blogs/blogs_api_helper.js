@@ -48,14 +48,17 @@ const blogsInDb = async () => {
 }
 
 const nonExistingId = async () => {
-  const blog = new Blog({
-    title: 'Art of deleting blogs',
-    url: 'https://www.blog.com'
-  })
-  await blog.save()
+
+  const blogCreation = await blogWithUser()
+
+  const { savedBlog: blog, token } = blogCreation
+
   await blog.deleteOne()
 
-  return blog._id.toString()
+  return {
+    blogId: blog._id.toString(),
+    token
+  }
 }
 
 const authenticatedUser = async ()  => {
@@ -91,9 +94,8 @@ const blogWithUser = async () => {
   })
 
   const savedBlog = await blog.save()
-  const blogId = savedBlog._id
 
-  return { blogId, token }
+  return { token, savedBlog }
 }
 
 module.exports = {
