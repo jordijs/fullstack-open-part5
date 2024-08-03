@@ -65,10 +65,9 @@ const App = () => {
         author: '',
         url: ''
       })
-      console.log(blog)
-      // setBlogs({...blogs, newBlog})
+      setBlogs(blogs.concat(blog))
     } catch (exception) {
-      console.error(exception)
+      console.error(exception.response.data)
     }
   }
 
