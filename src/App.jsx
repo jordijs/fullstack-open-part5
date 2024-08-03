@@ -11,7 +11,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [newBlog, setNewBlog] = useState({
     title: '',
-    author:'',
+    author: '',
     url: ''
   })
 
@@ -26,6 +26,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -36,6 +37,7 @@ const App = () => {
         username, password
       })
 
+      blogService.setToken(user.token)
       window.localStorage.setItem(
         'loggedBloglistUser', JSON.stringify(user)
       )
@@ -56,14 +58,19 @@ const App = () => {
 
   const handleBlogForm = async (event) => {
     event.preventDefault()
-    console.log('adding new blog...', newBlog)
-    setNewBlog({
-      title: '',
-      author:'',
-      url: ''
-    })
+    try {
+      const blog = await blogService.create(newBlog)
+      setNewBlog({
+        title: '',
+        author: '',
+        url: ''
+      })
+      console.log(blog)
+      // setBlogs({...blogs, newBlog})
+    } catch (exception) {
+      console.error(exception)
+    }
   }
-    
 
   if (user === null) {
     return (
@@ -110,7 +117,7 @@ const App = () => {
               value={newBlog.title}
               name="Title"
               onChange={({ target }) => setNewBlog({
-                ...newBlog, 
+                ...newBlog,
                 title: target.value
               })}
             />
@@ -122,7 +129,7 @@ const App = () => {
               value={newBlog.author}
               name="Author"
               onChange={({ target }) => setNewBlog({
-                ...newBlog, 
+                ...newBlog,
                 author: target.value
               })}
             />
@@ -134,12 +141,12 @@ const App = () => {
               value={newBlog.url}
               name="Url"
               onChange={({ target }) => setNewBlog({
-                ...newBlog, 
+                ...newBlog,
                 url: target.value
               })}
             />
           </div>
-          <button type="submit">login</button>
+          <button type="submit">create</button>
         </form>
       </div>
       {blogs.map(blog =>
