@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import Notification from "./components/Notification"
@@ -63,17 +63,18 @@ const App = () => {
   const handleBlogForm = async (event) => {
     event.preventDefault()
     try {
+      blogFormRef.current.toggleVisibility()
       const blog = await blogService.create(newBlog)
-      setNewBlog({
-        title: '',
-        author: '',
-        url: ''
-      })
       setBlogs(blogs.concat(blog))
       displayNotification('success', `a new blog ${blog.title} by ${blog.author} added`)
     } catch (exception) {
       displayNotification('error', exception.response.data.error)
     }
+    setNewBlog({
+      title: '',
+      author: '',
+      url: ''
+    })
   }
 
   const displayNotification = (type, message) => {
@@ -84,6 +85,8 @@ const App = () => {
       setNotification(null)
     }, 5000)
   }
+
+  const blogFormRef = useRef()
 
   if (user === null) {
     return (
@@ -103,7 +106,10 @@ const App = () => {
       <h2>blogs</h2>
       <Notification notification={notification} />
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
-      <Togglable buttonLabel="new blog">
+      <Togglable
+        buttonLabel="new blog"
+        ref={blogFormRef}
+      >
         <BlogForm
           handleBlogForm={handleBlogForm}
           newBlog={newBlog}
