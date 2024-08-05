@@ -80,21 +80,19 @@ const App = () => {
     )
     setTimeout(() => {
       setNotification(null)
-    }, 5000);
+    }, 5000)
   }
 
   if (user === null) {
     return (
-      <div>
-        <Notification notification={notification} />
-        <LoginForm 
-          handleLogin={handleLogin}
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-        />
-      </div>
+      <LoginForm
+        handleLogin={handleLogin}
+        username={username}
+        password={password}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        notification={notification}
+      />
     )
   }
 
