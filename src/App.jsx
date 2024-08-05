@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
+import Notification from "./components/Notification"
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -101,48 +102,11 @@ const App = () => {
       <h2>blogs</h2>
       <Notification notification={notification} />
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
-      <div>
-        <h2>create new</h2>
-        <form onSubmit={handleBlogForm}>
-          <div>
-            title:
-            <input
-              type="text"
-              value={newBlog.title}
-              name="Title"
-              onChange={({ target }) => setNewBlog({
-                ...newBlog,
-                title: target.value
-              })}
-            />
-          </div>
-          <div>
-            author:
-            <input
-              type="text"
-              value={newBlog.author}
-              name="Author"
-              onChange={({ target }) => setNewBlog({
-                ...newBlog,
-                author: target.value
-              })}
-            />
-          </div>
-          <div>
-            url:
-            <input
-              type="text"
-              value={newBlog.url}
-              name="Url"
-              onChange={({ target }) => setNewBlog({
-                ...newBlog,
-                url: target.value
-              })}
-            />
-          </div>
-          <button type="submit">create</button>
-        </form>
-      </div>
+      <BlogForm
+        handleBlogForm={handleBlogForm}
+        newBlog={newBlog}
+        setNewBlog={setNewBlog}
+      />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
