@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlogs }) => {
 
   const [expanded, setExpanded] = useState(false)
   const [label, setLabel] = useState('view')
@@ -21,11 +21,17 @@ const Blog = ({ blog }) => {
     setExpanded(!expanded)
   }
 
-  const handleLike = () => {
-    blogService.update({ 
-      ...blog, 
-      likes: blog.likes + 1 
-    })
+  const handleLike = async () => {
+    try {
+      const updatedBlog = await blogService.update({
+        ...blog,
+        likes: blog.likes + 1
+      })
+      blog.likes = blog.likes + 1
+      updateBlogs(updatedBlog)
+    } catch (exception) {
+      console.error(exception)
+    }
   }
 
   return (

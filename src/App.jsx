@@ -66,6 +66,11 @@ const App = () => {
     }
   }
 
+  const updateBlogs = (updatedBlog) => {
+    const updatedBlogs = blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog)
+    setBlogs(updatedBlogs)
+  }
+
   const displayNotification = (type, message) => {
     setNotification(
       { type, message }
@@ -105,9 +110,7 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        // <Details>
-          <Blog key={blog.id} blog={blog} />
-        // </Details>
+        <Blog key={blog.id} blog={blog} updateBlogs={updateBlogs} />
       )}
     </div>
   )
