@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
 
@@ -15,17 +16,24 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  const handleButton = () => {
+  const handleExpand = () => {
     expanded ? setLabel('view') : setLabel('hide')
     setExpanded(!expanded)
   }
 
+  const handleLike = () => {
+    blogService.update({ 
+      ...blog, 
+      likes: blog.likes + 1 
+    })
+  }
+
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author} <button onClick={handleButton}>{label}</button>
+      {blog.title} {blog.author} <button onClick={handleExpand}>{label}</button>
       <div style={showWhenVisible}>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button>like</button></div>
+        <div>likes {blog.likes}<button onClick={handleLike}>like</button></div>
         <div>{blog.user.name}</div>
       </div>
     </div>
