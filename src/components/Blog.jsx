@@ -3,6 +3,9 @@ import { useState } from 'react'
 const Blog = ({ blog }) => {
 
   const [expanded, setExpanded] = useState(false)
+  const [label, setLabel] = useState('view')
+
+  const showWhenVisible = { display: expanded ? '' : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -12,28 +15,22 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-console.log(blog)
-  if (!expanded) {
-    return (
-      <div style={blogStyle}>
-        {blog.title} {blog.author} <button onClick={() => setExpanded(true)}>view</button>
-      </div>
-    )
-  } else {
-    return (
-      <div style={blogStyle}>
-        <div>{blog.title} {blog.author} <button onClick={() => setExpanded(false)}>hide</button></div>
+  const handleButton = () => {
+    expanded ? setLabel('view') : setLabel('hide')
+    setExpanded(!expanded)
+  }
+
+  return (
+    <div style={blogStyle}>
+      {blog.title} {blog.author} <button onClick={handleButton}>{label}</button>
+      <div style={showWhenVisible}>
         <div>{blog.url}</div>
         <div>likes {blog.likes}<button>like</button></div>
         <div>{blog.user.name}</div>
       </div>
-    )
-  }
-
-
+    </div>
+  )
 
 }
-
-
 
 export default Blog
