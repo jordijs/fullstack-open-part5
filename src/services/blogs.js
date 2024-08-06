@@ -31,14 +31,8 @@ const update = async editedBlog => {
     title: editedBlog.title,
     url: editedBlog.url
   }
-  console.log('url', url)
-  console.log('editedBlog', editedBlog)
-  console.log('blogObject', blogObject)
-  console.log('config', config)
-
-  const response = await axios.put(url, editedBlog, config)
+  const response = await axios.put(url, blogObject, config)
   return response.data
-
 }
 
 export default { setToken, getAll, create, update }
