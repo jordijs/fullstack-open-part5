@@ -31,7 +31,7 @@ const update = async editedBlog => {
     title: editedBlog.title,
     url: editedBlog.url
   }
-  const response = await axios.put(url, blogObject, config)
+  const response = await axios.put(url, blogObject)
   return response.data
 }
 
