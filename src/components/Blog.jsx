@@ -35,9 +35,16 @@ const Blog = ({ blog, updateBlogs, user }) => {
     }
   }
 
+  const handleRemove = () => {
+
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      console.log('removing')
+    }
+  }
+
   const removeButton = () => {
     return (
-      <button>remove</button>
+      <button onClick={handleRemove}>remove</button>
     )
   }
 
