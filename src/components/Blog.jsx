@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlogs, user }) => {
+const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
 
   const [expanded, setExpanded] = useState(false)
   const [label, setLabel] = useState('view')
@@ -28,17 +28,26 @@ const Blog = ({ blog, updateBlogs, user }) => {
         ...blog,
         likes: blog.likes + 1
       })
-      blog.likes = blog.likes + 1
-      updateBlogs(updatedBlog)
+      if (updatedBlog) {
+        blog.likes = blog.likes + 1
+        updateBlogs(updatedBlog)
+      }
     } catch (exception) {
       console.error(exception)
     }
   }
 
-  const handleRemove = () => {
-
+  const handleRemove = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      blogService.remove(blog.id)
+      try {
+        const removed = await blogService.remove(blog.id)
+        if (removed) {
+          console.log('removed ok', removed)
+          removeBlog(blog.id)
+        }
+      } catch (exception) {
+        console.error(exception)
+      }
     }
   }
 
