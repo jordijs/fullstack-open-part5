@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
-import Notification from "./components/Notification"
+import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
@@ -108,7 +108,7 @@ const App = () => {
       <Notification notification={notification} />
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
       <Togglable
-        buttonLabel="new blog"
+        buttonLabel='new blog'
         ref={blogFormRef}
       >
         <BlogForm
