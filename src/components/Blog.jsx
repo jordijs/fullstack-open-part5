@@ -62,7 +62,7 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
   return (
     <div style={blogStyle} className='blog'>
       {blog.title} {blog.author} <button onClick={handleExpand}>{label}</button>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='blogDetails'>
         <div>{blog.url}</div>
         <div>likes {blog.likes}<button onClick={handleLike}>like</button></div>
         <div>{blog.user.name}</div>

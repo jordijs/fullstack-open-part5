@@ -24,12 +24,17 @@ test('renders title and author, not url or likes', () => {
 
   const { container } = render(<Blog blog={blog} user={user}/>)
 
-  const div = container.querySelector('.blog')
-  expect(div).toHaveTextContent(
+  const blogContainer = container.querySelector('.blog')
+  expect(blogContainer).toHaveTextContent(
     'John Doe'
   )
-  expect(div).toHaveTextContent(
+  expect(blogContainer).toHaveTextContent(
     'Dummy Title'
   )
+
+  const blogDetails = container.querySelector('.blogDetails')
+  expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
+  expect(blogDetails).toHaveTextContent('likes 5')
+  expect(blogDetails).toHaveStyle('display:none')
 
 })
