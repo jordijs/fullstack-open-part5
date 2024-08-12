@@ -57,6 +57,8 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
     )
   }
 
+  console.log(blog)
+
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author} <button onClick={handleExpand}>{label}</button>
