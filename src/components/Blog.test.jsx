@@ -22,11 +22,14 @@ test('renders title and author, not url or likes', () => {
     user: user
   }
 
-  render(<Blog blog={blog} user={user}/>)
+  const { container } = render(<Blog blog={blog} user={user}/>)
 
-  const element = screen.getByText(
-    'Dummy Title', 
-    { exact: false } 
+  const div = container.querySelector('.blog')
+  expect(div).toHaveTextContent(
+    'John Doe'
   )
-  expect(element).toBeDefined()
+  expect(div).toHaveTextContent(
+    'Dummy Title'
+  )
+
 })
