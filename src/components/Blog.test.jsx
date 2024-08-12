@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 import { beforeEach } from 'vitest'
 
@@ -42,20 +43,17 @@ describe('<Blog />', () => {
 
   })
 
-  test('url and likes are shown on button click', () => {
+  test('url and likes are shown on button click', async () => {
+    const user = userEvent.setup()
 
-    // const blogContainer = container.querySelector('.blog')
-    // expect(blogContainer).toHaveTextContent(
-    //   'John Doe'
-    // )
-    // expect(blogContainer).toHaveTextContent(
-    //   'Dummy Title'
-    // )
+    const button = screen.getByText('view')
 
-    // const blogDetails = container.querySelector('.blogDetails')
-    // expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
-    // expect(blogDetails).toHaveTextContent('likes 5')
-    // expect(blogDetails).toHaveStyle('display:none')
+    await user.click(button)
+
+    const blogDetails = container.querySelector('.blogDetails')
+    expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
+    expect(blogDetails).toHaveTextContent('likes 5')
+    expect(blogDetails).not.toHaveStyle('display: none')
 
   })
 

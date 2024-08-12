@@ -19,7 +19,6 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
   const handleExpand = () => {
     expanded ? setLabel('view') : setLabel('hide')
     setExpanded(!expanded)
-    console.log(user)
   }
 
   const handleLike = async () => {
@@ -56,8 +55,6 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
       <button onClick={handleRemove}>remove</button>
     )
   }
-
-  console.log(blog)
 
   return (
     <div style={blogStyle} className='blog'>
