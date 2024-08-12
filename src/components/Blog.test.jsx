@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
+import { beforeEach } from 'vitest'
 
-// Make a test, which checks that the component displaying a blog renders the blog's title and author, but does not render its URL or number of likes by default.
+describe('<Blog />', () => {
 
-// Add CSS classes to the component to help the testing as necessary.
+  let container
 
-test('renders title and author, not url or likes', () => {  
-  
   const user = {
     id: 1,
     name: 'Jane Smith',
@@ -22,19 +21,42 @@ test('renders title and author, not url or likes', () => {
     user: user
   }
 
-  const { container } = render(<Blog blog={blog} user={user}/>)
+  beforeEach(() => {
+    container = render(<Blog blog={blog} user={user} />).container
+  })
 
-  const blogContainer = container.querySelector('.blog')
-  expect(blogContainer).toHaveTextContent(
-    'John Doe'
-  )
-  expect(blogContainer).toHaveTextContent(
-    'Dummy Title'
-  )
+  test('renders title and author, not url or likes', () => {
 
-  const blogDetails = container.querySelector('.blogDetails')
-  expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
-  expect(blogDetails).toHaveTextContent('likes 5')
-  expect(blogDetails).toHaveStyle('display:none')
+    const blogContainer = container.querySelector('.blog')
+    expect(blogContainer).toHaveTextContent(
+      'John Doe'
+    )
+    expect(blogContainer).toHaveTextContent(
+      'Dummy Title'
+    )
+
+    const blogDetails = container.querySelector('.blogDetails')
+    expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
+    expect(blogDetails).toHaveTextContent('likes 5')
+    expect(blogDetails).toHaveStyle('display:none')
+
+  })
+
+  test('url and likes are shown on button click', () => {
+
+    // const blogContainer = container.querySelector('.blog')
+    // expect(blogContainer).toHaveTextContent(
+    //   'John Doe'
+    // )
+    // expect(blogContainer).toHaveTextContent(
+    //   'Dummy Title'
+    // )
+
+    // const blogDetails = container.querySelector('.blogDetails')
+    // expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
+    // expect(blogDetails).toHaveTextContent('likes 5')
+    // expect(blogDetails).toHaveStyle('display:none')
+
+  })
 
 })
