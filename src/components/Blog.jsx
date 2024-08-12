@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
+const Blog = ({ blog, likeBlog, removeBlog, user }) => {
 
   const [expanded, setExpanded] = useState(false)
   const [label, setLabel] = useState('view')
@@ -19,21 +19,6 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
   const handleExpand = () => {
     expanded ? setLabel('view') : setLabel('hide')
     setExpanded(!expanded)
-  }
-
-  const handleLike = async () => {
-    try {
-      const updatedBlog = await blogService.update({
-        ...blog,
-        likes: blog.likes + 1
-      })
-      if (updatedBlog) {
-        blog.likes = blog.likes + 1
-        updateBlogs(updatedBlog)
-      }
-    } catch (exception) {
-      console.error(exception)
-    }
   }
 
   const handleRemove = async () => {
@@ -61,7 +46,7 @@ const Blog = ({ blog, updateBlogs, removeBlog, user }) => {
       {blog.title} {blog.author} <button onClick={handleExpand}>{label}</button>
       <div style={showWhenVisible} className='blogDetails'>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button onClick={handleLike}>like</button></div>
+        <div>likes {blog.likes}<button onClick={() => likeBlog(blog)}>like</button></div>
         <div>{blog.user.name}</div>
         {user.username === blog.user.username && removeButton()}
       </div>

@@ -67,10 +67,20 @@ const App = () => {
     }
   }
 
-  const updateBlogs = updatedBlog => {
-    const updatedBlogs = blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog)
-    const sortedBlogs = updatedBlogs.toSorted((a, b) => b.likes - a.likes)
-    setBlogs(sortedBlogs)
+  const likeBlog = async (blog) => {
+    try {
+      const updatedBlog = await blogService.update({
+        ...blog,
+        likes: blog.likes + 1
+      })
+      if (updatedBlog) {
+        const updatedBlogs = blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog)
+        const sortedBlogs = updatedBlogs.toSorted((a, b) => b.likes - a.likes)
+        setBlogs(sortedBlogs)
+      }
+    } catch (exception) {
+      console.error(exception)
+    }
   }
 
   const removeBlog = blogId => {
@@ -117,7 +127,7 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlogs={updateBlogs} removeBlog={removeBlog} user={user} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog} user={user} />
       )}
     </div>
   )

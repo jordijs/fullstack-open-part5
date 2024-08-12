@@ -22,8 +22,10 @@ describe('<Blog />', () => {
     user: user
   }
 
+  const likeBlog = vi.fn()
+
   beforeEach(() => {
-    container = render(<Blog blog={blog} user={user} />).container
+    container = render(<Blog blog={blog} user={user} likeBlog={likeBlog}/>).container
   })
 
   test('renders title and author, not url or likes', () => {
@@ -54,6 +56,19 @@ describe('<Blog />', () => {
     expect(blogDetails).toHaveTextContent('https://www.fakeblog.com')
     expect(blogDetails).toHaveTextContent('likes 5')
     expect(blogDetails).not.toHaveStyle('display: none')
+
+  })
+
+  test('if like button is clicked twice, handler is called twice', async () => {
+
+    const user = userEvent.setup()
+
+    const button = screen.getByText('like')
+
+    await user.click(button)
+    await user.click(button)
+
+    expect(likeBlog.mock.calls).toHaveLength(2)
 
   })
 
