@@ -41,11 +41,18 @@ describe('Blog app', () => {
 
     describe('When logged in', () => {
       beforeEach(async ({ page }) => {
-        // ...
+        await loginWith(page, 'jordijs', 'contrasenya')
       })
     
-      test('a new blog can be created', async ({ page }) => {
-        // ...
+      test.only('a new blog can be created', async ({ page }) => {
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByRole('textbox', { name: 'title:' }).fill('Adding blogs with testing')
+        await page.getByRole('textbox', { name: 'author:' }).fill('Jane Smith')
+        await page.getByRole('textbox', { name: 'url:' }).fill('http://www.testblog.com')
+        await page.getByRole('button', { name: /create/i }).click()
+
+        await expect(page.getByTestId('bloglist')).toContainText('Adding blogs with testing Jane Smith')
+
       })
     })
   })
