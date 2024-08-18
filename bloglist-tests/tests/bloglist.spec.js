@@ -50,9 +50,15 @@ describe('Blog app', () => {
         await expect(page.getByTestId('bloglist')).toContainText('Adding blogs with testing Jane Smith')
       })
 
-      describe('and a blog exists', () => {
+      describe('and one blog exists', () => {
         beforeEach(async ({ page }) => {
           await createBlog(page, 'Adding blogs with testing', 'Jane Smith', 'http://www.testblog.com')
+        })
+
+        test('importance can be changed', async ({ page }) => {
+          await page.getByRole('button', { name: 'view' }).click()
+          await page.getByRole('button', { name: 'like' }).click()
+          await expect(page.getByText('likes 1')).toBeVisible()
         })
       })
     })
