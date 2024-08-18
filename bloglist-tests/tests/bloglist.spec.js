@@ -3,15 +3,15 @@ const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:3003/api/testing/reset')
-    await request.post('http://localhost:3003/api/users', {
+    await request.post('/api/testing/reset')
+    await request.post('/api/users', {
       data: {
         name: 'Jordi Julià',
         username: 'jordijs',
         password: 'contrasenya'
       }
     })
-    await page.goto('http://localhost:5173')
+    await page.goto('/')
   })
 
   test('Login form is shown', async ({ page }) => {
@@ -74,7 +74,7 @@ describe('Blog app', () => {
 
         describe('and there are blogs by different users', () => {
           beforeEach(async ({ page, request }) => {
-            await request.post('http://localhost:3003/api/users', {
+            await request.post('/api/users', {
               data: {
                 name: 'John Doe',
                 username: 'jdoe',
@@ -104,7 +104,6 @@ describe('Blog app', () => {
           test('blogs are arranged according to number of likes', async ({ page }) => {
             
             const bloglist = await page.getByTestId('bloglist')
-
             await expect(bloglist.locator('.blog').first()).toContainText('Adding blogs with testing Jane Smith')
             await expect(bloglist.locator('.blog').nth(1)).toContainText('The second blog Arto Hellas')
             await expect(bloglist.locator('.blog').nth(2)).toContainText('The third blog Mary Poppendieck')
