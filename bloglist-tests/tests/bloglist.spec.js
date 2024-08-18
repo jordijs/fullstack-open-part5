@@ -72,8 +72,27 @@ describe('Blog app', () => {
           await expect(page.getByTestId('bloglist')).not.toContainText('Adding blogs with testing Jane Smith')
         })
 
+        describe('and there are blogs by different users', () => {
+          beforeEach(async ({ page, request }) => {
+            await request.post('http://localhost:3003/api/users', {
+              data: {
+                name: 'John Doe',
+                username: 'jdoe',
+                password: 'secret'
+              }
+            })
+            await page.getByRole('button', { name: 'logout' }).click()
+            await loginWith(page, 'jdoe', 'secret')
+            await createBlog(page, 'The second blog', 'Arto Hellas', 'http://www.secondblog.com')
+            await createBlog(page, 'The third blog', 'Mary Poppendieck', 'http://www.thirdblog.com')
+          })
+
+          test('only the user who created the blog can delete it', async ({ page }) => {
+            await expect(page.getByText('Adding blogs with testing Jane Smith')).toBeVisible()
+          })
+
+        })
       })
     })
-
   })
 })
