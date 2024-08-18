@@ -87,8 +87,18 @@ describe('Blog app', () => {
             await createBlog(page, 'The third blog', 'Mary Poppendieck', 'http://www.thirdblog.com')
           })
 
-          test('only the user who created the blog can delete it', async ({ page }) => {
-            await expect(page.getByText('Adding blogs with testing Jane Smith')).toBeVisible()
+          test('only the user who created the blog sees the delete button', async ({ page }) => {
+            const firstNote = await page.getByText('Adding blogs with testing Jane Smith')
+            await firstNote.getByRole('button', { name: 'view' }).click()
+            await expect(firstNote.getByRole('button', { name: 'remove' })).not.toBeVisible()
+
+            const secondNote = await page.getByText('The second blog Arto Hellas')
+            await secondNote.getByRole('button', { name: 'view' }).click()
+            await expect(secondNote.getByRole('button', { name: 'remove' })).toBeVisible()
+
+            const thirdNote = await page.getByText('The third blog Mary Poppendieck')
+            await thirdNote.getByRole('button', { name: 'view' }).click()
+            await expect(thirdNote.getByRole('button', { name: 'remove' })).toBeVisible()
           })
 
         })
