@@ -8,24 +8,27 @@ describe('Blog app', () => {
   })
 
   test('Login form is shown', async ({ page }) => {
-    const formTitle = await page.getByText('Log in to application')
-    const username = await page.getByRole('textbox', { name: 'username' })
-    const password = await page.getByRole('textbox', { name: 'password' })
-    const loginButton = await page.getByRole('button', { name: /login/i })
-
-    await expect(formTitle).toBeVisible()
-    await expect(username).toBeVisible()
-    await expect(password).toBeVisible()
-    await expect(loginButton).toBeVisible()
+    await expect(page.getByText('Log in to application')).toBeVisible()
+    await expect(page.getByRole('textbox', { name: 'username' })).toBeVisible()
+    await expect(page.getByRole('textbox', { name: 'password' })).toBeVisible()
+    await expect(page.getByRole('button', { name: /login/i })).toBeVisible()
   })
 
   describe('Login', () => {
     test('succeeds with correct credentials', async ({ page }) => {
-      // ...
+      await page.getByRole('textbox', { name: 'username' }).fill('jordijs')
+      await page.getByRole('textbox', { name: 'password' }).fill('contrasenya')
+      await page.getByRole('button', { name: /login/i }).click()
+
+      await expect(page.getByText('Jordi Julià logged in')).toBeVisible()
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-      // ...
+      await page.getByRole('textbox', { name: 'username' }).fill('fake')
+      await page.getByRole('textbox', { name: 'password' }).fill('wrong')
+      await page.getByRole('button', { name: /login/i }).click()
+
+      await expect(page.getByText('wrong username or password')).toBeVisible()
     })
   })
 })
