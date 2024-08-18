@@ -29,9 +29,7 @@ describe('Blog app', () => {
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-      await page.getByRole('textbox', { name: 'username' }).fill('jordijs')
-      await page.getByRole('textbox', { name: 'password' }).fill('wrong')
-      await page.getByRole('button', { name: /login/i }).click()
+      await loginWith(page, 'jordijs', 'wrong')
 
       const error = await page.getByText('wrong username or password')
       await expect(error).toBeVisible()
