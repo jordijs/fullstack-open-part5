@@ -58,8 +58,19 @@ describe('Blog app', () => {
         test('importance can be changed', async ({ page }) => {
           await page.getByRole('button', { name: 'view' }).click()
           await page.getByRole('button', { name: 'like' }).click()
+
           await expect(page.getByText('likes 1')).toBeVisible()
         })
+
+        test('blog can be deleted', async ({ page }) => {
+          await page.getByRole('button', { name: 'view' }).click()
+
+          page.on('dialog', dialog => dialog.accept())
+          await page.getByRole('button', { name: 'remove' }).click()
+
+          await expect(page.getByTestId('bloglist')).not.toContainText('Adding blogs with testing Jane Smith')
+        })
+
       })
     })
 
