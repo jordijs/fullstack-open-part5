@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith } = require('./helper')
+const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -43,17 +43,19 @@ describe('Blog app', () => {
       beforeEach(async ({ page }) => {
         await loginWith(page, 'jordijs', 'contrasenya')
       })
-    
-      test.only('a new blog can be created', async ({ page }) => {
-        await page.getByRole('button', { name: 'new blog' }).click()
-        await page.getByRole('textbox', { name: 'title:' }).fill('Adding blogs with testing')
-        await page.getByRole('textbox', { name: 'author:' }).fill('Jane Smith')
-        await page.getByRole('textbox', { name: 'url:' }).fill('http://www.testblog.com')
-        await page.getByRole('button', { name: /create/i }).click()
+
+      test('a new blog can be created', async ({ page }) => {
+        await createBlog(page, 'Adding blogs with testing', 'Jane Smith', 'http://www.testblog.com')
 
         await expect(page.getByTestId('bloglist')).toContainText('Adding blogs with testing Jane Smith')
+      })
 
+      describe('and a blog exists', () => {
+        beforeEach(async ({ page }) => {
+          await createBlog(page, 'Adding blogs with testing', 'Jane Smith', 'http://www.testblog.com')
+        })
       })
     })
+
   })
 })
