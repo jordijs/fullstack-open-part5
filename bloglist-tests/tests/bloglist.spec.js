@@ -34,7 +34,20 @@ describe('Blog app', () => {
       await page.getByRole('textbox', { name: 'password' }).fill('wrong')
       await page.getByRole('button', { name: /login/i }).click()
 
-      await expect(page.getByText('wrong username or password')).toBeVisible()
+      const error = await page.getByText('wrong username or password')
+      await expect(error).toBeVisible()
+      await expect(error).toHaveCSS('border-style', 'solid')
+      await expect(error).toHaveCSS('color', 'rgb(255, 0, 0)')
+    })
+
+    describe('When logged in', () => {
+      beforeEach(async ({ page }) => {
+        // ...
+      })
+    
+      test('a new blog can be created', async ({ page }) => {
+        // ...
+      })
     })
   })
 })
